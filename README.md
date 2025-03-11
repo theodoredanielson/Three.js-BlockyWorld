@@ -138,14 +138,3 @@ Choose **three advanced techniques** to implement from the list below or explore
 - [Three.js GitHub Repository](https://github.com/mrdoob/three.js/)
 
 ---
-
-## Contributing
-
-Contributions are welcome! If you have suggestions for improvements or additional features, please feel free to open an issue or submit a pull request.
-
----
-
-## License
-
-This project is open-source and available under the [MIT License](LICENSE). Use and modify it as needed.
-```

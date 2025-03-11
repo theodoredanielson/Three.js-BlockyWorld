@@ -1,129 +1,140 @@
-# **WebGL 3D Maze Game with Texture Mapping and Camera Controls**
+# Three.js 3D Scene Assignment
 
-## **Overview**
-This is a WebGL-based 3D game featuring a maze environment where the player navigates using a first-person camera. The objective is to traverse the maze and reach the cockroach character, which initiates an animation sequence upon contact. The game includes **collision detection, texture mapping, block placement, mouse-controlled camera movement, and interactive animations.**
-
-## **Features**
-- **First-Person Camera Movement:**
-  - Move with **WASD or Arrow keys**.
-  - Rotate using **mouse movement** (pointer-lock enabled).
-  - Press **Tab** to release the mouse.
-
-- **Texture Mapping and Graphics:**
-  - Multiple textures for different objects.
-  - Skybox and ground textures.
-  - Blocks have distinct textures (TEXTURE 4 for placed blocks).
-  
-- **Maze Environment:**
-  - A **32x32 grid-based** world with walls and a floor.
-  - Cockroach character built using **hierarchical transformations**.
-  - Maze prevents flying over walls.
-
-- **Block Placement (Simple Minecraft-style Building):**
-  - **Shift + Click** to place a block.
-  - **Ctrl + Click** to remove a block.
-  - Blocks snap to the **32x32 grid** and avoid player collisions.
-  - Walls cannot be modified.
-
-- **Collision Detection & Sliding Movement:**
-  - Prevents clipping through walls.
-  - Camera **slides along walls** when blocked.
-  - Climbing mechanics allow sliding **up vertical walls**.
-
-- **Cockroach Interaction (Win Condition):**
-  - Approaching the **cockroach’s head** (within **0.2 radius**) triggers animation.
-  - Movement is disabled upon winning.
-  - Displays **"YOU WIN! REFRESH TO PLAY AGAIN"** with a **black background for readability**.
-
-- **User Input & UI Elements:**
-  - `"I Quit"` button prints the current **map state**.
-  - Game instructions displayed at the bottom.
-  - UI elements styled for readability.
+This project is an assignment that guides you through creating a 3D scene using [Three.js](https://threejs.org/). By following a structured list of tutorials, you'll implement various features such as animated cubes, textures, custom 3D models, camera controls, multiple light sources, a skybox, and additional 3D objects. You'll also explore advanced computer graphics techniques to enhance your scene.
 
 ---
 
-## **Setup Instructions**
-### **1. Start a Local Web Server**
-Since WebGL security restrictions prevent direct file loading, you **must** use a local web server to run this project.
-- If you have Python installed:
-  - Run:  
-    ```
-    python3 -m http.server
-    ```
-  - Open `http://localhost:8000/World.html` in a browser.
+## Table of Contents
 
-### **2. Controls**
-| Action | Key/Input |
-|--------|----------|
-| **Move Forward** | W or Arrow Up |
-| **Move Backward** | S or Arrow Down |
-| **Move Left** | A or Arrow Left |
-| **Move Right** | D or Arrow Right |
-| **Pan Camera Left** | Q |
-| **Pan Camera Right** | E |
-| **Look Around** | Mouse Movement (when pointer is locked) |
-| **Exit Pointer Lock** | Tab or Esc |
-| **Place Block** | Shift + Click |
-| **Remove Block** | Ctrl + Click |
-| **Quit & Print Map** | Click "I Quit" button |
+1. [Prerequisites](#prerequisites)
+2. [Setup](#setup)
+3. [Assignment Steps](#assignment-steps)
+   - [1. Create a Simple Three.js Scene](#1-create-a-simple-threejs-scene)
+   - [2. Add Textures](#2-add-textures)
+   - [3. Add a Custom 3D Model](#3-add-a-custom-3d-model)
+   - [4. Add Controls to Your Camera](#4-add-controls-to-your-camera)
+   - [5. Add Extra Light Sources](#5-add-extra-light-sources)
+   - [6. Add a Skybox](#6-add-a-skybox)
+   - [7. Add More 3D Objects to Your Scene](#7-add-more-3d-objects-to-your-scene)
+   - [8. Extras](#8-extras)
+4. [Resources](#resources)
+5. [Contributing](#contributing)
+6. [License](#license)
 
 ---
 
-## **Technical Implementation**
-### **1. WebGL Rendering & Shaders**
-- **Vertex Shader:**
-  - Handles **model, view, projection, and global rotation matrices**.
-- **Fragment Shader:**
-  - Supports multiple textures via `u_SamplerX` uniforms.
+## Prerequisites
 
-### **2. Camera System**
-- Implemented in **Camera.js**.
-- Uses **view and projection matrices** for first-person movement.
-- Supports **collision detection** to prevent walking through walls.
-- **Pointer Lock API** is used for mouse-based rotation.
-
-### **3. Collision Handling**
-- `checkCollision(x, z, radius)` prevents movement into occupied tiles.
-- **Sliding logic:**  
-  - When colliding with a wall in **X or Z**, movement continues in the **other direction**.
-  - If blocked in both, **movement stops**.
-  - Allows **vertical climbing** if there's an open space above.
-
-### **4. Block Placement System**
-- Blocks align with the **32x32 grid**.
-- Cannot **modify** existing walls.
-- Prevents placement in the **player’s position**.
-- If blocked, places in the **next available forward tile**.
-
-### **5. Animation & Win Condition**
-- The cockroach consists of multiple **Cube** objects with **hierarchical transformations**.
-- `poke()` triggers an **animation sequence** when interacted with.
-- Collision with the cockroach’s head **disables movement** and displays **"YOU WIN!"**.
+- Basic understanding of JavaScript, HTML, and CSS.
+- Familiarity with Three.js fundamentals.
+- A local web server to serve static files.
+- Optional: Knowledge of Git and GitHub.
 
 ---
 
-## **Known Issues & Future Improvements**
-- **Performance Optimization:**  
-  - Currently optimized for **10 FPS with a 32x32 world**.
-  - Could implement **instancing** or more efficient rendering.
-- **Improved Collision Handling:**  
-  - Could be refined to better handle **diagonal movement**.
-- **Save/Load Feature:**  
-  - Currently, block placement **does not persist** after refresh.
+## Setup
+
+1. **Clone or Download the Repository:**
+   ```bash
+   git clone https://github.com/your-username/threejs-assignment.git
+   ```
+2. **Install Dependencies:**  
+   If you're using a module bundler like Vite, Parcel, or Webpack, install the required packages.
+3. **Start Your Local Server:**  
+   Serve the `index.html` file to preview your 3D scene in the browser.
 
 ---
 
-## **Credits & Collaboration**
-- **Author:** Teddy Danielson  
-- **Collaborator:** Sam Morrow  
-- Used **ChatGPT** for debugging, formatting, and code explanation.  
-- Implemented hierarchical transformations to **animate** the cockroach.  
-- **Optimization & Fixes:** Adjusted WebGL buffer management for better performance.
+## Assignment Steps
+
+### 1. Create a Simple Three.js Scene
+**Tutorial Reference:** [Fundamentals](https://threejs.org/manual/#en/fundamentals)  
+- Initialize a Three.js scene.
+- Add multiple animated cubes.
+- Incorporate a directional light source.
+- Set up a perspective camera.
+
+> **Tip:** Ensure the cubes are animated (e.g., rotating) so you can verify that everything is rendered correctly.
 
 ---
 
-## **How to Play**
-1. **Navigate through the maze** to find the **cockroach**.
-2. **Avoid walls** and use **block placement** wisely.
-3. **Win by approaching the cockroach’s head**.
-4. **Or quit early** using the `"I Quit"` button!
+### 2. Add Textures
+**Tutorial Reference:** [Textures](https://threejs.org/manual/#en/textures)  
+- Learn how to load and map textures onto objects.
+- Apply the same texture to all six faces of a cube.
+- Experiment with different textures on each face.
+- Understand texture filtering: minification, magnification, and mipmapping.
+
+> **Tip:** Adjust filtering settings if you notice any issues with texture quality.
+
+---
+
+### 3. Add a Custom 3D Model
+**Tutorial Reference:** [Load OBJ Models](https://threejs.org/manual/#en/load-obj)  
+- Find a free 3D model in the `.obj` format or create your own using a tool like Blender.
+- Use the OBJLoader (and optionally MTLLoader) to load and display your model.
+- Position and scale the model appropriately within the scene.
+
+> **Tip:** Double-check file paths for your model and textures to avoid loading errors.
+
+---
+
+### 4. Add Controls to Your Camera
+**Tutorial Reference:** [Cameras](https://threejs.org/manual/#en/cameras)  
+- Implement OrbitControls to enable mouse-based interaction.
+- Allow users to pan, rotate, and zoom the camera.
+- Fine-tune control parameters for a smooth user experience.
+
+> **Tip:** Experiment with damping and sensitivity to find the optimal settings.
+
+---
+
+### 5. Add Extra Light Sources
+**Tutorial Reference:** [Lights](https://threejs.org/manual/#en/lights)  
+- Add at least three different light sources (e.g., AmbientLight, PointLight, SpotLight).
+- Experiment with light color, intensity, and shadows.
+- Use a GUI tool (like `lil-gui`) to adjust these settings in real-time.
+
+> **Tip:** Use a combination of light sources to create a dynamic and visually appealing scene.
+
+---
+
+### 6. Add a Skybox
+**Tutorial Reference:** [Backgrounds](https://threejs.org/manual/#en/backgrounds)  
+- Create a cubemap-based skybox that surrounds the scene.
+- Ensure the camera is inside the skybox for an immersive effect.
+- Experiment with different sky textures for varied environments.
+
+> **Tip:** Free cubemap textures are available online for different environments such as space, landscapes, etc.
+
+---
+
+### 7. Add More 3D Objects to Your Scene
+- Add at least 20 additional 3D objects (cubes, spheres, cylinders, etc.).
+- Arrange them creatively to build a meaningful scene.
+- Consider adding more custom models to enhance visual diversity.
+
+> **Tip:** Vary the scale, position, and textures of objects to keep the scene engaging.
+
+---
+
+### 8. Extras
+Choose **three advanced techniques** to implement from the list below or explore other techniques in computer graphics:
+- **Shadows:** [Shadows](https://threejs.org/manual/#en/shadows)
+- **Picking (Object Selection):** [Picking](https://threejs.org/manual/#en/picking)
+- **Fog:** [Fog](https://threejs.org/manual/#en/fog)
+- **Billboards:** [Billboards](https://threejs.org/manual/#en/billboards)
+- **Multiple Cameras:** [Multiple Cameras](https://threejs.org/manual/#en/cameras)
+- **Render to Texture:** [Render Targets](https://threejs.org/manual/#en/rendertargets)
+
+> **Tip:** Document your implementation and explain why you chose these techniques and how they enhance the scene.
+
+---
+
+## Resources
+
+- [Three.js Official Website](https://threejs.org/)
+- [Three.js Manual and Examples](https://threejs.org/manual/)
+- [Three.js GitHub Repository](https://github.com/mrdoob/three.js/)
+
+---
