@@ -111,7 +111,7 @@ function main() {
 	{
 	const fogColor = 'white';
 	const nearFog = 15;
-	const farFog = 40;
+	const farFog = 60;
 	scene.fog = new THREE.Fog(fogColor, nearFog, farFog);
 	scene.background = new THREE.Color(fogColor);
 	}
@@ -180,7 +180,7 @@ function resizeRendererToDisplaySize(renderer) {
 // Adds the ground plane and sets the background to an equirectangular texture
 function addGroundPlaneAndBackground(scene) {
 	// Ground plane
-	const planeSize = 60;
+	const planeSize = 6000;
 	const planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
 	const planeMat = new THREE.MeshPhongMaterial({
 	color: 0x654321, // dark brown color
@@ -194,7 +194,7 @@ function addGroundPlaneAndBackground(scene) {
 	// Background texture
 	const loader = new THREE.TextureLoader();
 	const bgTexture = loader.load(
-	'https://threejs.org/manual/examples/resources/images/equirectangularmaps/tears_of_steel_bridge_2k.jpg',
+	'../resources/images/skyBox2.jpg', // A Dane Downunder on flickr: https://www.flickr.com/photos/yapperx1/
 	() => {
 		bgTexture.mapping = THREE.EquirectangularReflectionMapping;
 		bgTexture.colorSpace = THREE.SRGBColorSpace;
@@ -298,6 +298,43 @@ function addGeometries(scene) {
 	cubeLabel.position.copy(cubeWorldPos);
 	cubeLabel.position.y += 2.5;
 
+	// ----- Junk Pile -----
+	const junkPile = new THREE.Group();
+  
+	// List of primitive geometries
+	const geometries = [
+	  new THREE.BoxGeometry(2, 2, 2),
+	  new THREE.SphereGeometry(1, 32, 32),
+	  new THREE.ConeGeometry(1, 2, 32),
+	  new THREE.CylinderGeometry(1, 1, 2, 32)
+	];
+  
+	// Create multiple random primitives and add them to the junk pile
+	for (let i = 0; i < 1000; i++) {
+	  const geo = geometries[Math.floor(Math.random() * geometries.length)];
+	  const material = new THREE.MeshPhongMaterial({ color: Math.random() * 0xffffff });
+	  const mesh = new THREE.Mesh(geo, material);
+	  mesh.castShadow = true;
+	  mesh.receiveShadow = true;
+	  
+	  // Random position: x and z between -10 and 10, y between 0 and 5.
+	  mesh.position.set(
+		(Math.random() - 0.5) * 100 - 10,
+		Math.random() * 5,
+		(Math.random() - 0.5) * 45 - 30
+	  );
+	  
+	  // Random rotation on each axis.
+	  mesh.rotation.set(
+		Math.random() * Math.PI,
+		Math.random() * Math.PI,
+		Math.random() * Math.PI
+	  );
+	  
+	  junkPile.add(mesh);
+	}
+	scene.add(junkPile);
+
 	// ----- Cube Stack -----
 	const textures = [
 	loader.load('../resources/images/cartoonSky.jpg'),
@@ -321,7 +358,7 @@ function addGeometries(scene) {
 
 	// ----- Sphere -----
 	const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-	const sphereMaterial = new THREE.MeshPhongMaterial({ map: loader.load('../resources/images/bowlingBall.jpg') });
+	const sphereMaterial = new THREE.MeshPhongMaterial({ map: loader.load('../resources/images/bowlingBall.jpg') }); // teh_supar_hackr on textures-resouce.com: https://www.textures-resource.com/pc_computer/sammaxseason1/texture/12058/
 	const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 	sphere.castShadow = true;
 	sphere.receiveShadow = true;
@@ -387,8 +424,9 @@ function loadStatue(scene) {
 	const objLoader = new OBJLoader();
 	objLoader.setMaterials(mtl);
 	objLoader.load('../resources/obj/LibertStatue.obj', (root) => {
-		root.scale.set(50, 50, 50);
-		root.position.set(0, 0, -20);
+		root.scale.set(100, 100, 100);
+		root.rotation.set( 0,0, -Math.PI/3);
+		root.position.set(-70, -40, -30);
 		root.castShadow = true;
 		root.receiveShadow = true;
 		scene.add(root);
